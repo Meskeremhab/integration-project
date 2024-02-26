@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Stock Tracker</title>
+</head>
+<body>
+
+<h1>{{ user_data['user_name'] }}'s Stock Portfolio</h1>
+
+{% for portfolio in portfolios %}
+    <h2>Portfolio: {{ portfolio['portfolio_id'] }}</h2>
+    <ul>
+        {% for item in portfolio['items'] %}
+            <li>
+                {{ item['ticker'] }} - Quantity: {{ item['quantity'] }} - Purchase Price: {{ item['purchase_price'] }}
+                {% if item['details'] %}
+                    <details>
+                        <summary>Daily Time Series</summary>
+                        <table>
+                            <tr>
+                                <th>Date</th>
+                                <th>Open</th>
+                                <th>High</th>
+                                <th>Low</th>
+                                <th>Close</th>
+                                <th>Volume</th>
+                            </tr>
+                            {% for date, details in item['details'].items() %}
+                            <tr>
+                                <td>{{ date }}</td>
+                                <td>{{ details['1. open'] }}</td>
+                                <td>{{ details['2. high'] }}</td>
+                                <td>{{ details['3. low'] }}</td>
+                                <td>{{ details['4. close'] }}</td>
+                                <td>{{ details['5. volume'] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </details>
+                {% else %}
+                    <p>No details available for this stock.</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+</body>
+</html>
